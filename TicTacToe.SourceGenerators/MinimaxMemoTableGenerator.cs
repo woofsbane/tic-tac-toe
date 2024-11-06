@@ -20,36 +20,36 @@ public class MinimaxMemoTableGenerator : ISourceGenerator
 		var oMemoTable = GenerateMemoTableO();
 
 		var source = $@"
-    using System.Collections.Generic;
-	using TicTacToe.Core;
+using System.Collections.Generic;
+using TicTacToe.Core;
 
-    namespace TicTacToe.SourceGenerators
+namespace TicTacToe.SourceGenerators
+{{
+    public static class PrecomputedMemos
     {{
-        public static class PrecomputedMemos
+        private static readonly Dictionary<int, int> xMemos = new Dictionary<int, int>
         {{
-            private static readonly Dictionary<int, int> xMemos = new Dictionary<int, int>
-            {{
-                {xMemoTable}
-            }};
+            {xMemoTable}
+        }};
 
-            private static readonly Dictionary<int, int> oMemos = new Dictionary<int, int>
-            {{
-                {oMemoTable}
-            }};
+        private static readonly Dictionary<int, int> oMemos = new Dictionary<int, int>
+        {{
+            {oMemoTable}
+        }};
 
-			public static int GetValue(Player player, Board board)
+		public static int GetValue(Player player, Board board)
+		{{
+			var memoTable = player == Player.X ? xMemos : oMemos;
+
+			if (memoTable.TryGetValue(board.GetCanonicalHashCode(), out int value))
 			{{
-				var memoTable = player == Player.X ? xMemos : oMemos;
-
-				if (memoTable.TryGetValue(board.GetCanonicalHashCode(), out int value))
-				{{
-					return value;
-				}}
-
-				return -1;
+				return value;
 			}}
-        }}
+
+			return -1;
+		}}
     }}
+}}
     ";
 
 		// Add the source code to the compilation
