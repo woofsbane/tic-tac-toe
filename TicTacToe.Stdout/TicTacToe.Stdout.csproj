@@ -11,12 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TicTacToe.Core\TicTacToe.Core.csproj" />
-    <ProjectReference Include="..\TicTacToe.Players\TicTacToe.Players.csproj" />
+    <Compile Remove="Players\**" />
+    <EmbeddedResource Remove="Players\**" />
+    <None Remove="Players\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Players\" />
+    <ProjectReference Include="..\TicTacToe.Core\TicTacToe.Core.csproj" />
+    <ProjectReference Include="..\TicTacToe.Players\TicTacToe.Players.csproj" />
   </ItemGroup>
 
 </Project>
