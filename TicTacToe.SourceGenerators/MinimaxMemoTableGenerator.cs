@@ -59,7 +59,7 @@ namespace TicTacToe.SourceGenerators
 	private string GenerateMemoTableX()
 	{
 		var player = new MinimaxMemoizedVariants(Player.X);
-		player.GetMove(Board.Empty);
+		player.BuildMemos(Board.Empty);
 
 		var memoTable = new StringBuilder();
 
@@ -78,7 +78,7 @@ namespace TicTacToe.SourceGenerators
 		foreach (var (row, column) in Board.Empty.GetValidMoves())
 		{
 			var board = Board.Empty.Move(row, column, Player.X);
-			player.GetMove(board);
+			player.BuildMemos(board);
 		}
 
 		var memoTable = new StringBuilder();
