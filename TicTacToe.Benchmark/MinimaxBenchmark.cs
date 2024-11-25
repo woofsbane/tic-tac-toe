@@ -8,21 +8,21 @@ namespace TicTacToe.Benchmark
 	public class MinimaxBenchmark
 	{
 		[Benchmark(Baseline = true)]
-		public (Row, Column) Standard() => new MinimaxStandard(Player.X).GetMove(Board.Empty);
+		public Move Standard() => new MinimaxStandard(Player.X).GetMove(Board.Empty);
 
 		[Benchmark]
-		public (Row, Column) AlphaBeta() => new MinimaxAlphaBeta(Player.X).GetMove(Board.Empty);
+		public Move AlphaBeta() => new MinimaxAlphaBeta(Player.X).GetMove(Board.Empty);
 
 		[Benchmark]
-		public (Row, Column) Memoized() => new MinimaxMemoized(Player.X).GetMove(Board.Empty);
+		public Move Memoized() => new MinimaxMemoized(Player.X).GetMove(Board.Empty);
 
 		[Benchmark]
-		public (Row, Column) MemoizedVariants() => new MinimaxMemoizedVariants(Player.X).GetMove(Board.Empty);
+		public Move MemoizedVariants() => new MinimaxMemoizedVariants(Player.X).GetMove(Board.Empty);
 
 		[Benchmark]
-		public (Row, Column) AlphaBetaMemoizedVariants() => new MinimaxAlphaBetaMemoizedVariants(Player.X).GetMove(Board.Empty);
+		public Move AlphaBetaMemoizedVariants() => new MinimaxAlphaBetaMemoizedVariants(Player.X).GetMove(Board.Empty);
 
 		[Benchmark]
-		public (Row, Column) SourceGenerated() => new MinimaxSourceGenerated(Player.X).GetMove(Board.Empty);
+		public Move SourceGenerated() => new MinimaxSourceGenerated(Player.X).GetMove(Board.Empty);
 	}
 }

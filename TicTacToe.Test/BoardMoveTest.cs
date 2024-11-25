@@ -13,7 +13,7 @@ namespace TicTacToe.Test
 				.With(Player._, Player.X, Player._)
 				.With(Player._, Player._, Player._);
 
-			var newBoard = board.Move(Row._2, Column._2, Player.X);
+			var newBoard = board.MovePlayer(Move.At(Row._2, Column._2), Player.X);
 
 			Assert.Equal(expectedBoard, newBoard);
 		}
@@ -26,7 +26,7 @@ namespace TicTacToe.Test
 				.With(Player._, Player._, Player._)
 				.With(Player._, Player._, Player.X);
 
-			Assert.Throws<InvalidOperationException>(() => board.Move(Row._3, Column._3, Player.O));
+			Assert.Throws<InvalidOperationException>(() => board.MovePlayer(Move.At(Row._3, Column._3), Player.O));
 		}
 
 		[Fact]
@@ -37,7 +37,7 @@ namespace TicTacToe.Test
 				.With(Player._, Player._, Player._)
 				.With(Player._, Player._, Player.X);
 
-			Assert.Throws<InvalidOperationException>(() => board.Move(Row._3, Column._3, Player.X));
+			Assert.Throws<InvalidOperationException>(() => board.MovePlayer(Move.At(Row._3, Column._3), Player.X));
 		}
 
 		[Fact]
@@ -48,7 +48,7 @@ namespace TicTacToe.Test
 				.With(Player._, Player._, Player._)
 				.With(Player._, Player._, Player.X);
 
-			Assert.Throws<InvalidOperationException>(() => board.Move(Row._1, Column._1, Player.X));
+			Assert.Throws<InvalidOperationException>(() => board.MovePlayer(Move.At(Row._1, Column._1), Player.X));
 		}
 
 		[Fact]
@@ -59,7 +59,7 @@ namespace TicTacToe.Test
 				.With(Player._, Player.O, Player._)
 				.With(Player._, Player._, Player.X);
 
-			Assert.Throws<InvalidOperationException>(() => board.Move(Row._1, Column._1, Player.O));
+			Assert.Throws<InvalidOperationException>(() => board.MovePlayer(Move.At(Row._1, Column._1), Player.O));
 		}
 
 		[Fact]
@@ -67,7 +67,7 @@ namespace TicTacToe.Test
 		{
 			var board = Board.Empty;
 
-			Assert.Throws<InvalidOperationException>(() => board.Move(Row._1, Column._1, Player.O));
+			Assert.Throws<InvalidOperationException>(() => board.MovePlayer(Move.At(Row._1, Column._1), Player.O));
 		}
 	}
 }

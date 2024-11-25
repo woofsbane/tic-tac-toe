@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.Core
 {
-	public enum Player
+	public enum Player : byte
 	{
 		_,
 		X,

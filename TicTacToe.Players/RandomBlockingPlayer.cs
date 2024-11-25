@@ -6,19 +6,19 @@ namespace TicTacToe.Players
 	{
 		private readonly RandomPlayer _randomPlayer = new();
 
-		public (Row row, Column column) GetMove(Board board)
+		public Move GetMove(Board board)
 		{
 			var opponent = player == Player.X ? Player.O : Player.X;
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 
 			foreach (var move in validMoves)
 			{
-				var simulatedBoard = board.Move(move.row, move.column, player);
-				var opponentMoves = simulatedBoard.GetValidMoves();
+				var simulatedBoard = board.MovePlayer(move, player);
+				var opponentMoves = simulatedBoard.ValidMoves;
 
 				foreach (var opponentMove in opponentMoves)
 				{
-					var opponentSimulatedBoard = simulatedBoard.Move(opponentMove.row, opponentMove.column, opponent);
+					var opponentSimulatedBoard = simulatedBoard.MovePlayer(opponentMove, opponent);
 					if (opponentSimulatedBoard.Winner == opponent)
 					{
 						return opponentMove;

@@ -2,6 +2,6 @@
 {
 	public interface IPlayer
 	{
-		(Row row, Column column) GetMove(Board board);
+		Move GetMove(Board board);
 	}
 }

@@ -22,29 +22,30 @@ new Game(playerX, playerO, print).Start();
 static IPlayer GetPlayer(string playerSymbol)
 {
 	Player player = (Player)Enum.Parse(typeof(Player), playerSymbol);
+	return new MinimaxAlphaBeta(player);
 
-	while (true)
-	{
-		Console.Write($"Select player type for {playerSymbol}: ");
-		var input = Console.ReadLine();
+	//while (true)
+	//{
+	//	Console.Write($"Select player type for {playerSymbol}: ");
+	//	var input = Console.ReadLine();
 
-		switch (input)
-		{
-			case "1":
-				return new HumanPlayer(player);
-			case "2":
-				return new RandomPlayer();
-			case "3":
-				return new RandomBlockingPlayer(player);
-			case "4":
-				return new RandomWinningPlayer(player);
-			case "5":
-				return new RandomBlockingWinningPlayer(player);
-			case "6":
-				return new MinimaxSourceGenerated(player);
-			default:
-				Console.WriteLine("Invalid player type selected. Please enter a number from 1 to 6.");
-				break;
-		}
-	}
+	//	switch (input)
+	//	{
+	//		case "1":
+	//			return new HumanPlayer(player);
+	//		case "2":
+	//			return new RandomPlayer();
+	//		case "3":
+	//			return new RandomBlockingPlayer(player);
+	//		case "4":
+	//			return new RandomWinningPlayer(player);
+	//		case "5":
+	//			return new RandomBlockingWinningPlayer(player);
+	//		case "6":
+	//			return new MinimaxAlphaBeta(player);
+	//		default:
+	//			Console.WriteLine("Invalid player type selected. Please enter a number from 1 to 6.");
+	//			break;
+	//	}
+	//}
 }

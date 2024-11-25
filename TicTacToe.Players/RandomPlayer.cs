@@ -6,9 +6,9 @@ namespace TicTacToe.Players
 	{
 		private static readonly Random _random = new();
 
-		public (Row row, Column column) GetMove(Board board)
+		public Move GetMove(Board board)
 		{
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 			if (validMoves.Count == 0)
 			{
 				throw new InvalidOperationException("No valid moves available.");

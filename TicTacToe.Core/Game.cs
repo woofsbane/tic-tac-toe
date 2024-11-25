@@ -13,9 +13,9 @@
 				{
 					beforeMove(_board);
 
-					var (row, column) = _currentPlayer == Player.X ? playerX.GetMove(_board) : playerO.GetMove(_board);
+					var move = _currentPlayer == Player.X ? playerX.GetMove(_board) : playerO.GetMove(_board);
 
-					_board = _board.Move(row, column, _currentPlayer);
+					_board = _board.MovePlayer(move, _currentPlayer);
 					_currentPlayer = _currentPlayer == Player.X ? Player.O : Player.X;
 				}
 				catch (InvalidOperationException)
@@ -27,7 +27,7 @@
 			beforeMove(_board);
 			Console.WriteLine(_board.Winner == Player._ ? "It's a draw!" : $"Player {_board.Winner} wins!");
 
-			Console.ReadKey();
+			//Console.ReadKey();
 		}
 	}
 }

@@ -6,13 +6,13 @@ namespace TicTacToe.Players
 	{
 		private readonly RandomPlayer _randomPlayer = new();
 
-		public (Row row, Column column) GetMove(Board board)
+		public Move GetMove(Board board)
 		{
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 
 			foreach (var move in validMoves)
 			{
-				var simulatedBoard = board.Move(move.row, move.column, player);
+				var simulatedBoard = board.MovePlayer(move, player);
 				if (simulatedBoard.Winner == player)
 				{
 					return move;

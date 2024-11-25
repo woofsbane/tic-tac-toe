@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.Core
 {
-	public enum Column
+	public enum Column : byte
 	{
 		_1,
 		_2,

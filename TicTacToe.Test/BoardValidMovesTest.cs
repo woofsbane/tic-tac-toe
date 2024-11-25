@@ -9,18 +9,18 @@ namespace TicTacToe.Test
 		{
 			var board = Board.Empty;
 
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 
 			Assert.Equal(9, validMoves.Count);
-			Assert.Contains((Row._1, Column._1), validMoves);
-			Assert.Contains((Row._1, Column._2), validMoves);
-			Assert.Contains((Row._1, Column._3), validMoves);
-			Assert.Contains((Row._2, Column._1), validMoves);
-			Assert.Contains((Row._2, Column._2), validMoves);
-			Assert.Contains((Row._2, Column._3), validMoves);
-			Assert.Contains((Row._3, Column._1), validMoves);
-			Assert.Contains((Row._3, Column._2), validMoves);
-			Assert.Contains((Row._3, Column._3), validMoves);
+			Assert.Contains(Move.At(Row._1, Column._1), validMoves);
+			Assert.Contains(Move.At(Row._1, Column._2), validMoves);
+			Assert.Contains(Move.At(Row._1, Column._3), validMoves);
+			Assert.Contains(Move.At(Row._2, Column._1), validMoves);
+			Assert.Contains(Move.At(Row._2, Column._2), validMoves);
+			Assert.Contains(Move.At(Row._2, Column._3), validMoves);
+			Assert.Contains(Move.At(Row._3, Column._1), validMoves);
+			Assert.Contains(Move.At(Row._3, Column._2), validMoves);
+			Assert.Contains(Move.At(Row._3, Column._3), validMoves);
 		}
 
 		[Fact]
@@ -31,14 +31,14 @@ namespace TicTacToe.Test
 				.With(Player._, Player.X, Player._)
 				.With(Player.O, Player._, Player._);
 
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 
 			Assert.Equal(5, validMoves.Count);
-			Assert.Contains((Row._1, Column._3), validMoves);
-			Assert.Contains((Row._2, Column._1), validMoves);
-			Assert.Contains((Row._2, Column._3), validMoves);
-			Assert.Contains((Row._3, Column._2), validMoves);
-			Assert.Contains((Row._3, Column._3), validMoves);
+			Assert.Contains(Move.At(Row._1, Column._3), validMoves);
+			Assert.Contains(Move.At(Row._2, Column._1), validMoves);
+			Assert.Contains(Move.At(Row._2, Column._3), validMoves);
+			Assert.Contains(Move.At(Row._3, Column._2), validMoves);
+			Assert.Contains(Move.At(Row._3, Column._3), validMoves);
 		}
 
 		[Fact]
@@ -49,7 +49,7 @@ namespace TicTacToe.Test
 				.With(Player.X, Player.O, Player.O)
 				.With(Player.O, Player.X, Player.X);
 
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 
 			Assert.Empty(validMoves);
 		}

@@ -75,9 +75,9 @@ namespace TicTacToe.SourceGenerators
 	{
 		var player = new MinimaxMemoizedVariants(Player.O);
 
-		foreach (var (row, column) in Board.Empty.GetValidMoves())
+		foreach (var move in Board.Empty.ValidMoves)
 		{
-			var board = Board.Empty.Move(row, column, Player.X);
+			var board = Board.Empty.MovePlayer(move, Player.X);
 			player.BuildMemos(board);
 		}
 

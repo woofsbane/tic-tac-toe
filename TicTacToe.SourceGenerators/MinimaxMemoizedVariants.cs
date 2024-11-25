@@ -12,17 +12,17 @@ namespace TicTacToe.SourceGenerators
 
         public void BuildMemos(Board board)
         {
-            var validMoves = board.GetValidMoves();
+            var validMoves = board.ValidMoves;
 
             foreach (var move in validMoves)
             {
-                Memoize(board.Move(move.row, move.column, player), false);
+                Memoize(board.MovePlayer(move, player), false);
             }
         }
 
         private int Minimax(Board board, bool isMaximizing)
         {
-            var validMoves = board.GetValidMoves();
+            var validMoves = board.ValidMoves;
 
             if (board.Winner == player)
                 return 1;
@@ -34,9 +34,9 @@ namespace TicTacToe.SourceGenerators
             if (isMaximizing)
             {
                 var bestValue = int.MinValue;
-                foreach (var (row, column) in validMoves)
+                foreach (var move in validMoves)
                 {
-                    var simulatedBoard = board.Move(row, column, player);
+                    var simulatedBoard = board.MovePlayer(move, player);
                     var moveValue = Memoize(simulatedBoard, false);
                     bestValue = Math.Max(bestValue, moveValue);
                 }
@@ -45,9 +45,9 @@ namespace TicTacToe.SourceGenerators
             else
             {
                 var bestValue = int.MaxValue;
-                foreach (var (row, column) in validMoves)
+                foreach (var move in validMoves)
                 {
-                    var simulatedBoard = board.Move(row, column, opponent);
+                    var simulatedBoard = board.MovePlayer(move, opponent);
                     var moveValue = Memoize(simulatedBoard, true);
                     bestValue = Math.Min(bestValue, moveValue);
                 }

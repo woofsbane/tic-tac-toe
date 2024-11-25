@@ -7,15 +7,15 @@ namespace TicTacToe.Players.Minimax
 		private readonly Player _player = player;
 		private readonly Player _opponent = player == Player.X ? Player.O : Player.X;
 
-		public (Row row, Column column) GetMove(Board board)
+		public Move GetMove(Board board)
 		{
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 			var bestMove = validMoves.First();
 			var bestValue = int.MinValue;
 
 			foreach (var move in validMoves)
 			{
-				var simulatedBoard = board.Move(move.row, move.column, _player);
+				var simulatedBoard = board.MovePlayer(move, _player);
 				var moveValue = Minimax(simulatedBoard, false);
 
 				if (moveValue > bestValue)
@@ -30,7 +30,7 @@ namespace TicTacToe.Players.Minimax
 
 		private int Minimax(Board board, bool isMaximizing)
 		{
-			var validMoves = board.GetValidMoves();
+			var validMoves = board.ValidMoves;
 
 			if (board.Winner == _player)
 				return 1;
@@ -42,9 +42,9 @@ namespace TicTacToe.Players.Minimax
 			if (isMaximizing)
 			{
 				var bestValue = int.MinValue;
-				foreach (var (row, column) in validMoves)
+				foreach (var move in validMoves)
 				{
-					var simulatedBoard = board.Move(row, column, _player);
+					var simulatedBoard = board.MovePlayer(move, _player);
 					var moveValue = Minimax(simulatedBoard, false);
 					bestValue = Math.Max(bestValue, moveValue);
 				}
@@ -53,9 +53,9 @@ namespace TicTacToe.Players.Minimax
 			else
 			{
 				var bestValue = int.MaxValue;
-				foreach (var (row, column) in validMoves)
+				foreach (var move in validMoves)
 				{
-					var simulatedBoard = board.Move(row, column, _opponent);
+					var simulatedBoard = board.MovePlayer(move, _opponent);
 					var moveValue = Minimax(simulatedBoard, true);
 					bestValue = Math.Min(bestValue, moveValue);
 				}

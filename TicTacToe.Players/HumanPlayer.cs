@@ -4,14 +4,14 @@ namespace TicTacToe.Players
 {
 	public class HumanPlayer(Player player) : IPlayer
 	{
-		public (Row row, Column column) GetMove(Board board)
+		public Move GetMove(Board board)
 		{
 			Console.WriteLine($"Player {player}, make your move (row and column, e.g. 00): ");
 			var input = Console.ReadLine();
 
 			if (TryParseInput(input, out Row row, out Column column))
 			{
-				return (row, column);
+				return Move.At(row, column);
 			}
 
 			throw new InvalidOperationException();
