@@ -16,8 +16,8 @@ public class MinimaxMemoTableGenerator : ISourceGenerator
 
 	public void Execute(GeneratorExecutionContext context)
 	{
-		var xMemoTable = GenerateMemoTableX();
-		var oMemoTable = GenerateMemoTableO();
+		var xMemoSwitch = GenerateMemoSwitchX();
+		var oMemoSwitch = GenerateMemoSwitchO();
 
 		var source = $@"
 using System.Collections.Generic;
@@ -27,26 +27,22 @@ namespace TicTacToe.SourceGenerators
 {{
     public static class PrecomputedMemos
     {{
-        private static readonly Dictionary<int, int> xMemos = new Dictionary<int, int>
-        {{
-            {xMemoTable}
-        }};
+		private static int GetX(int key) {{
+			switch (key) {{
+{xMemoSwitch}				default: return -1;
+			}};
+		}}
 
-        private static readonly Dictionary<int, int> oMemos = new Dictionary<int, int>
-        {{
-            {oMemoTable}
-        }};
+		private static int GetO(int key) {{
+			switch (key) {{
+{oMemoSwitch}				default: return -1;
+			}};
+		}}
 
 		public static int GetValue(Player player, Board board)
 		{{
-			var memoTable = player == Player.X ? xMemos : oMemos;
-
-			if (memoTable.TryGetValue(board.GetCanonicalHashCode(), out int value))
-			{{
-				return value;
-			}}
-
-			return -1;
+			var key = board.GetHashCode();
+			return player == Player.X ? GetX(key) : GetO(key);
 		}}
     }}
 }}
@@ -56,38 +52,38 @@ namespace TicTacToe.SourceGenerators
 		context.AddSource("PrecomputedMemos.cs", SourceText.From(source, Encoding.UTF8));
 	}
 
-	private string GenerateMemoTableX()
-	{
-		var player = new MinimaxMemoizedVariants(Player.X);
-		player.BuildMemos(Board.Empty);
+	private string GenerateMemoSwitchX()
+    {
+        var player = new MinimaxMemoizedVariants(Player.X);
+        player.BuildMemos(Board.Empty);
 
-		var memoTable = new StringBuilder();
+        var memoTable = new StringBuilder();
 
-		foreach (var entry in player.memos.Where(x => !x.Key.Item2))
-		{
-			memoTable.Append($"[{entry.Key.Item1}] = {entry.Value},");
-		}
+        foreach (var entry in player.memos.Where(x => !x.Key.Item2))
+        {
+            memoTable.Append($"\t\t\t\tcase {entry.Key.Item1}: return {entry.Value};\n");
+        }
 
-		return memoTable.ToString();
-	}
+        return memoTable.ToString();
+    }
 
-	private string GenerateMemoTableO()
-	{
-		var player = new MinimaxMemoizedVariants(Player.O);
+    private string GenerateMemoSwitchO()
+    {
+        var player = new MinimaxMemoizedVariants(Player.O);
 
-		foreach (var move in Board.Empty.ValidMoves)
-		{
-			var board = Board.Empty.MovePlayer(move, Player.X);
-			player.BuildMemos(board);
-		}
+        foreach (var move in Board.Empty.ValidMoves)
+        {
+            var board = Board.Empty.MovePlayer(move, Player.X);
+            player.BuildMemos(board);
+        }
 
-		var memoTable = new StringBuilder();
+        var memoTable = new StringBuilder();
 
-		foreach (var entry in player.memos.Where(x => !x.Key.Item2))
-		{
-			memoTable.Append($"[{entry.Key.Item1}] = {entry.Value},");
-		}
+        foreach (var entry in player.memos.Where(x => !x.Key.Item2))
+        {
+            memoTable.Append($"\t\t\t\tcase {entry.Key.Item1}: return {entry.Value};\n");
+        }
 
-		return memoTable.ToString();
-	}
+        return memoTable.ToString();
+    }
 }

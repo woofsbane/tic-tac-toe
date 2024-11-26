@@ -21,6 +21,7 @@ namespace TicTacToe.Core
             }
 
             ValidMoves = GetValidMoves();
+            hashCode = GetHash(_positions[0], _positions[1], _positions[2], _positions[3], _positions[4], _positions[5], _positions[6], _positions[7], _positions[8]);
         }
 
         private int CountPositions(Player player)
@@ -35,7 +36,7 @@ namespace TicTacToe.Core
             return count;
         }
 
-        public static Board Empty => From();
+        public static Board Empty { get; } = From();
 
         public static Board From(
             Player r1c1 = Player._,
@@ -92,7 +93,7 @@ namespace TicTacToe.Core
 
         private readonly Player? GetWinner()
         {
-            if (_positions[0] != Player._ && _positions[0] == _positions[1] && _positions[3] == _positions[2]) return _positions[0]; // Row 1
+            if (_positions[0] != Player._ && _positions[0] == _positions[1] && _positions[0] == _positions[2]) return _positions[0]; // Row 1
             if (_positions[3] != Player._ && _positions[3] == _positions[4] && _positions[3] == _positions[5]) return _positions[3]; // Row 2
             if (_positions[6] != Player._ && _positions[6] == _positions[7] && _positions[6] == _positions[8]) return _positions[6]; // Row 3
             if (_positions[0] != Player._ && _positions[0] == _positions[3] && _positions[0] == _positions[6]) return _positions[0]; // Column 1
@@ -135,7 +136,8 @@ namespace TicTacToe.Core
             return ret;
         }
 
-        public override int GetHashCode() => GetHash(_positions[0], _positions[1], _positions[2], _positions[3], _positions[4], _positions[5], _positions[6], _positions[7], _positions[8]);
+        private readonly int hashCode;
+        public override int GetHashCode() => hashCode;
 
         private static int GetHash(Player p0, Player p1, Player p2, Player p3, Player p4, Player p5, Player p6, Player p7, Player p8)
         {
@@ -156,75 +158,94 @@ namespace TicTacToe.Core
 
         public int GetCanonicalHashCode()
         {
+            var p0 = (byte)_positions[0];
+            var p1 = (byte)_positions[1];
+            var p2 = (byte)_positions[2];
+            var p3 = (byte)_positions[3];
+            var p4 = (byte)_positions[4];
+            var p5 = (byte)_positions[5];
+            var p6 = (byte)_positions[6];
+            var p7 = (byte)_positions[7];
+            var p8 = (byte)_positions[8];
+
             unchecked
             {
                 var horizontalFlip =
-                    (int)_positions[2] << 16 |
-                    (int)_positions[1] << 14 |
-                    (int)_positions[0] << 12 |
-                    (int)_positions[5] << 10 |
-                    (int)_positions[4] << 8 |
-                    (int)_positions[3] << 6 |
-                    (int)_positions[8] << 4 |
-                    (int)_positions[7] << 2 |
-                    (int)_positions[6];
+                    p2 << 16 |
+                    p1 << 14 |
+                    p0 << 12 |
+                    p5 << 10 |
+                    p4 << 8 |
+                    p3 << 6 |
+                    p8 << 4 |
+                    p7 << 2 |
+                    p6;
 
                 var verticalFlip =
-                    (int)_positions[6] << 16 |
-                    (int)_positions[7] << 14 |
-                    (int)_positions[8] << 12 |
-                    (int)_positions[3] << 10 |
-                    (int)_positions[4] << 8 |
-                    (int)_positions[5] << 6 |
-                    (int)_positions[0] << 4 |
-                    (int)_positions[1] << 2 |
-                    (int)_positions[2];
+                    p6 << 16 |
+                    p7 << 14 |
+                    p8 << 12 |
+                    p3 << 10 |
+                    p4 << 8 |
+                    p5 << 6 |
+                    p0 << 4 |
+                    p1 << 2 |
+                    p2;
 
                 var rotate90 =
-                    (int)_positions[6] << 16 |
-                    (int)_positions[3] << 14 |
-                    (int)_positions[0] << 12 |
-                    (int)_positions[7] << 10 |
-                    (int)_positions[4] << 8 |
-                    (int)_positions[1] << 6 |
-                    (int)_positions[8] << 4 |
-                    (int)_positions[5] << 2 |
-                    (int)_positions[2];
+                    p6 << 16 |
+                    p3 << 14 |
+                    p0 << 12 |
+                    p7 << 10 |
+                    p4 << 8 |
+                    p1 << 6 |
+                    p8 << 4 |
+                    p5 << 2 |
+                    p2;
 
                 var rotate180 =
-                    (int)_positions[8] << 16 |
-                    (int)_positions[7] << 14 |
-                    (int)_positions[6] << 12 |
-                    (int)_positions[5] << 10 |
-                    (int)_positions[4] << 8 |
-                    (int)_positions[3] << 6 |
-                    (int)_positions[2] << 4 |
-                    (int)_positions[1] << 2 |
-                    (int)_positions[0];
+                    p8 << 16 |
+                    p7 << 14 |
+                    p6 << 12 |
+                    p5 << 10 |
+                    p4 << 8 |
+                    p3 << 6 |
+                    p2 << 4 |
+                    p1 << 2 |
+                    p0;
 
                 var rotate270 =
-                    (int)_positions[2] << 16 |
-                    (int)_positions[5] << 14 |
-                    (int)_positions[8] << 12 |
-                    (int)_positions[1] << 10 |
-                    (int)_positions[4] << 8 |
-                    (int)_positions[7] << 6 |
-                    (int)_positions[0] << 4 |
-                    (int)_positions[3] << 2 |
-                    (int)_positions[6];
+                    p2 << 16 |
+                    p5 << 14 |
+                    p8 << 12 |
+                    p1 << 10 |
+                    p4 << 8 |
+                    p7 << 6 |
+                    p0 << 4 |
+                    p3 << 2 |
+                    p6;
 
                 var transpose =
-                    (int)_positions[0] << 16 |
-                    (int)_positions[3] << 14 |
-                    (int)_positions[6] << 12 |
-                    (int)_positions[1] << 10 |
-                    (int)_positions[4] << 8 |
-                    (int)_positions[7] << 6 |
-                    (int)_positions[2] << 4 |
-                    (int)_positions[5] << 2 |
-                    (int)_positions[8];
+                    p0 << 16 |
+                    p3 << 14 |
+                    p6 << 12 |
+                    p1 << 10 |
+                    p4 << 8 |
+                    p7 << 6 |
+                    p2 << 4 |
+                    p5 << 2 |
+                    p8;
 
-                return new[] { GetHashCode(), horizontalFlip, verticalFlip, rotate90, rotate180, rotate270, transpose }.Min();
+                var code = GetHashCode();
+
+                if (horizontalFlip < code) code = horizontalFlip;
+                if (verticalFlip < code) code = verticalFlip;
+                if (rotate90 < code) code = rotate90;
+                if (rotate180 < code) code = rotate180;
+                if (rotate270 < code) code = rotate270;
+                if (transpose < code) code = transpose;
+
+                return code;
             }
         }
 

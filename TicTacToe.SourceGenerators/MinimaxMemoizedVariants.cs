@@ -57,14 +57,14 @@ namespace TicTacToe.SourceGenerators
 
         private int Memoize(Board board, bool isMaximizing)
         {
-            if (memos.TryGetValue((board.GetCanonicalHashCode(), isMaximizing), out int value))
+            if (memos.TryGetValue((board.GetHashCode(), isMaximizing), out int value))
             {
                 return value;
             }
 
             var computedValue = Minimax(board, isMaximizing);
 
-            memos[(board.GetCanonicalHashCode(), isMaximizing)] = computedValue;
+            memos[(board.GetHashCode(), isMaximizing)] = computedValue;
 
             return computedValue;
         }
