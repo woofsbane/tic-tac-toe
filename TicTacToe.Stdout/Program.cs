@@ -19,6 +19,8 @@ var print = (Board board) => Console.WriteLine(printer.Print(board));
 
 new Game(playerX, playerO, print).Start();
 
+Console.ReadKey();
+
 static IPlayer GetPlayer(string playerSymbol)
 {
 	Player player = (Player)Enum.Parse(typeof(Player), playerSymbol);

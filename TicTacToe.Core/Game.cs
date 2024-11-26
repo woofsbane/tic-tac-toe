@@ -26,8 +26,6 @@
 
 			beforeMove(_board);
 			Console.WriteLine(_board.Winner == Player._ ? "It's a draw!" : $"Player {_board.Winner} wins!");
-
-			//Console.ReadKey();
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace TicTacToe.Core
 {
-    public struct Board : IEnumerable<Player>
+    public readonly struct Board : IEnumerable<Player>
     {
         private static readonly Dictionary<int, Board> boards = [];
 
@@ -88,20 +88,20 @@ namespace TicTacToe.Core
             return _positions[index] == Player._;
         }
 
-        public Player? Winner => GetWinner();
+        public readonly Player? Winner => GetWinner();
 
-        private Player? GetWinner()
+        private readonly Player? GetWinner()
         {
-            foreach (var combination in winningCombinations)
-            {
-                if (_positions[combination[0]] != Player._ &&
-                    _positions[combination[0]] == _positions[combination[1]] &&
-                    _positions[combination[1]] == _positions[combination[2]])
-                {
-                    return _positions[combination[0]];
-                }
-            }
+            if (_positions[0] != Player._ && _positions[0] == _positions[1] && _positions[3] == _positions[2]) return _positions[0]; // Row 1
+            if (_positions[3] != Player._ && _positions[3] == _positions[4] && _positions[3] == _positions[5]) return _positions[3]; // Row 2
+            if (_positions[6] != Player._ && _positions[6] == _positions[7] && _positions[6] == _positions[8]) return _positions[6]; // Row 3
+            if (_positions[0] != Player._ && _positions[0] == _positions[3] && _positions[0] == _positions[6]) return _positions[0]; // Column 1
+            if (_positions[1] != Player._ && _positions[1] == _positions[4] && _positions[1] == _positions[7]) return _positions[1]; // Column 2
+            if (_positions[2] != Player._ && _positions[2] == _positions[5] && _positions[2] == _positions[8]) return _positions[2]; // Column 3
+            if (_positions[0] != Player._ && _positions[0] == _positions[4] && _positions[0] == _positions[8]) return _positions[0]; // Diagonal 1
+            if (_positions[2] != Player._ && _positions[2] == _positions[4] && _positions[2] == _positions[6]) return _positions[2]; // Diagonal 2
 
+            // Tie
             if (_positions[0] != Player._ &&
                 _positions[1] != Player._ &&
                 _positions[2] != Player._ &&
@@ -117,18 +117,6 @@ namespace TicTacToe.Core
 
             return null;
         }
-
-        private static readonly byte[][] winningCombinations =
-        [
-            [0, 1, 2], // Row 1
-            [3, 4, 5], // Row 2
-            [6, 7, 8], // Row 3
-            [0, 3, 6], // Column 1
-            [1, 4, 7], // Column 2
-            [2, 5, 8], // Column 3
-            [0, 4, 8], // Diagonal 1
-            [2, 4, 6]  // Diagonal 2
-        ];
 
         public List<Move> ValidMoves { get; }
 
@@ -154,15 +142,15 @@ namespace TicTacToe.Core
             unchecked
             {
                 return
-                    (int)p8
-                    | (int)p7 << 2
-                    | (int)p6 << 4
-                    | (int)p5 << 6
-                    | (int)p4 << 8
-                    | (int)p3 << 10
-                    | (int)p2 << 12
-                    | (int)p1 << 14
-                    | (int)p0 << 16;
+                    (int)p0 << 16 |
+                    (int)p1 << 14 |
+                    (int)p2 << 12 |
+                    (int)p3 << 10 |
+                    (int)p4 << 8 |
+                    (int)p5 << 6 |
+                    (int)p6 << 4 |
+                    (int)p7 << 2 |
+                    (int)p8;
             };
         }
 
@@ -236,7 +224,7 @@ namespace TicTacToe.Core
                     (int)_positions[5] << 2 |
                     (int)_positions[8];
 
-                return new[] { horizontalFlip, verticalFlip, rotate90, rotate180, rotate270, transpose }.Min();
+                return new[] { GetHashCode(), horizontalFlip, verticalFlip, rotate90, rotate180, rotate270, transpose }.Min();
             }
         }
 
